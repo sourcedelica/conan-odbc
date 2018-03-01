@@ -43,7 +43,7 @@ class OdbcConan(ConanFile):
         if self.settings.compiler != 'Visual Studio' and self.options.fPIC:
             args.append('--with-pic=yes')
         env_build.configure(configure_dir=self.source_subfolder, args=args)
-        env_build.make(args=['-j16'])
+        env_build.make()
         env_build.make(args=['install'])
 
     def package(self):
@@ -58,7 +58,6 @@ class OdbcConan(ConanFile):
         self.copy('*.so',     dst='lib',     src=lib_src, keep_path=False)
         self.copy('*.so.*',   dst='lib',     src=lib_src, keep_path=False)
         self.copy('*.a',      dst='lib',     src=lib_src, keep_path=False)
-        self.copy('*.la',     dst='lib',     src=lib_src, keep_path=False)
         # Note: odbc_config is excluded because it has build directory paths compiled into it,
         # and because Conan provides the same sort of information
         self.copy('*',        dst='bin',     src=bin_src, keep_path=False, excludes='odbc_config')
